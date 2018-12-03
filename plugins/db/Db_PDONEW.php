@@ -1,6 +1,6 @@
 ﻿<?php
-/*{{{LICENSE
- +-----------------------------------------------------------------------+
+/* {{{LICENSE
+  +-----------------------------------------------------------------------+
   | SlightPHP Framework                                                   |
   +-----------------------------------------------------------------------+
   | This program is free software; you can redistribute it and/or modify  |
@@ -12,14 +12,13 @@
   +-----------------------------------------------------------------------+
   | Supports: http://www.slightphp.com                                    |
   +-----------------------------------------------------------------------+
-}}}*/
+  }}} */
 
 /**
  * @package SlightPHP
  * @subpackage SDb
  */
-class Db_PDONEW extends DbObject
-{
+class Db_PDONEW extends DbObject {
 
     /**
      * @var string
@@ -142,8 +141,7 @@ class Db_PDONEW extends DbObject
      * Db_PDONEW constructor.
      * @param string $prefix
      */
-    public function __construct($prefix = "mysql")
-    {
+    public function __construct($prefix = "mysql") {
         $this->prefix = $prefix;
     }
 
@@ -152,8 +150,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @param string $table
      */
-    public function init($params = array(), $table = '')
-    {
+    public function init($params = array(), $table = '') {
         if (!empty($params['dbinfo'])) {
             $section_name = $params['dbinfo'];
             $table_array = array();
@@ -161,42 +158,15 @@ class Db_PDONEW extends DbObject
             $table_array = explode('_', $table);
             $this->pri = $table_array[0];
             switch ($this->pri) {
-                case 'ex': //安管控
-                    $section_name = 'newexam';
+                case 'mx': //慧猎网Boss数据库
+                    $section_name = 'pinping';
                     break;
-                case 'hlw'://干电力主网
-                    $section_name = 'lanhui';
+                case 'phpyun' : //慧猎网
+                    $section_name = 'huiliewang';
                     break;
-                case 'uc'://ucenter
-                    $section_name = 'uc';
+                case 'huilie'://慧猎网数据中心
+                    $section_name = 'huilie_data';
                     break;
-				case 'agkuc'://ucenter
-                    $section_name = 'agkuc';
-                    break;
-                case 'ai'://人工智能违规数据判别服务中心数据库 
-                    $section_name = 'AI';
-                    break;
-                case 'cl'://云时际
-                    $section_name = 'clouddatabase';
-                    break;
-                case 'jt808': //通天星系统数据库
-                    $section_name = '1010gps';
-                    break;
-                case 'c7': //通天星系统数据库
-                    $section_name = 'cnrms_ces7';
-                    break;
-				case 'agk': //通天星系统数据库
-                    $section_name = 'newagk';
-                    break;
-				case 'atd': //考勤
-					$section_name = 'lhattendance';
-					break;
-				case 'atdc': //考勤
-					$section_name = 'lhattendancecloud';
-					break;
-				case 'lh'://权限
-					$section_name = 'lhbase';
-					break;
                 default:
                     $section_name = $this->pri;
             }
@@ -243,8 +213,7 @@ class Db_PDONEW extends DbObject
      *
      * @param boolean $count
      */
-    public function setCount($count)
-    {
+    public function setCount($count) {
         if ($count == true) {
             $this->count = true;
         } else {
@@ -257,8 +226,7 @@ class Db_PDONEW extends DbObject
      *
      * @param int $page
      */
-    public function setPage($page)
-    {
+    public function setPage($page) {
         if (!is_numeric($page) || $page < 1) {
             $page = 1;
         }
@@ -270,8 +238,7 @@ class Db_PDONEW extends DbObject
      *
      * @param int $limit 0 is all
      */
-    public function setLimit($limit)
-    {
+    public function setLimit($limit) {
         if (!is_numeric($limit) || $limit < 0) {
             $limit = 0;
         }
@@ -285,11 +252,11 @@ class Db_PDONEW extends DbObject
      * eg:    setGroupby("groupby MusicID");
      *      setGroupby("groupby MusicID,MusicName");
      */
+
     /**
      * @param string $group_by 含GROUP BY
      */
-    public function setGroupby($group_by)
-    {
+    public function setGroupby($group_by) {
         $this->groupby = $group_by;
     }
 
@@ -299,8 +266,7 @@ class Db_PDONEW extends DbObject
      * @param string $order_by
      * eg:    setOrderby("order by MusicID Desc");
      */
-    public function setOrderby($order_by)
-    {
+    public function setOrderby($order_by) {
         $this->orderby = $order_by;
     }
 
@@ -317,14 +283,7 @@ class Db_PDONEW extends DbObject
      * @return bool|DbData
      */
     public function select(
-        $table,
-        $condition = "",
-        $item = "*",
-        $group_by = "",
-        $order_by = "",
-        $left_join = "",
-        $params = array('type' => 'query'),
-		$joins = "LEFT"
+    $table, $condition = "", $item = "*", $group_by = "", $order_by = "", $left_join = "", $params = array('type' => 'query'), $joins = "LEFT"
     ) {
         //{{{$item
         if ($item == "") {
@@ -355,7 +314,7 @@ class Db_PDONEW extends DbObject
         $join = "";
         if (is_array($left_join)) {
             foreach ($left_join as $key => $value) {
-                $join .= " ".$joins." JOIN $key ON $value ";
+                $join .= " " . $joins . " JOIN $key ON $value ";
             }
         }
         //}}}
@@ -390,7 +349,7 @@ class Db_PDONEW extends DbObject
 
         if ($group_by) {
             $this->countsql = "SELECT count(1) totalSize FROM (SELECT 1 FROM {$table} {$join} {$condition_string}"
-                . " {$group_by}) as tmp_count";
+                    . " {$group_by}) as tmp_count";
         } else {
             $this->countsql = "SELECT count(1) totalSize FROM {$table} {$join} {$condition_string} {$group_by}";
         }
@@ -414,8 +373,6 @@ class Db_PDONEW extends DbObject
         $data->totalSecond = $end - $start;
 
         //}}}
-
-
         //{{{
         if ($this->limit != 0 && $this->count == true && $this->countsql != "") {
             $result_count = $this->query($table, $this->countsql, $bind, null, $params);
@@ -423,7 +380,6 @@ class Db_PDONEW extends DbObject
             $data->totalPage = ceil($data->totalSize / $data->limit);
         }
         //}}}
-
         //靠
         $this->setCount(false);
         $this->setPage(1);
@@ -447,13 +403,7 @@ class Db_PDONEW extends DbObject
      * @return array|bool
      */
     function selectOne(
-        $table,
-        $condition = "",
-        $item = "*",
-        $group_by = "",
-        $order_by = "",
-        $left_join = "",
-        $params = array('type' => 'query')
+    $table, $condition = "", $item = "*", $group_by = "", $order_by = "", $left_join = "", $params = array('type' => 'query')
     ) {
         $this->setLimit(1);
         $this->setCount(false);
@@ -477,7 +427,6 @@ class Db_PDONEW extends DbObject
                 return array();
             }
         }
-
     }
 
     /**
@@ -491,8 +440,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @return bool|int
      */
-    function update($table, $condition = "", $item = "", $params = array('type' => 'main'))
-    {
+    function update($table, $condition = "", $item = "", $params = array('type' => 'main')) {
         $value = $this->__quote($item, ",", $bind_v);
 
         $condition_string = $this->__quote($condition, "AND", $bind_c);
@@ -525,8 +473,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @return bool|int
      */
-    function delete($table, $condition = "", $params = array('type' => 'main'))
-    {
+    function delete($table, $condition = "", $params = array('type' => 'main')) {
         $condition_string = $this->__quote($condition, "AND", $bind);
         if ($condition_string != "") {
             $condition_string = " WHERE " . $condition_string;
@@ -559,12 +506,7 @@ class Db_PDONEW extends DbObject
      * @return array|bool|int
      */
     function insert(
-        $table,
-        $item = "",
-        $is_replace = false,
-        $is_delayed = false,
-        $update = array(),
-        $params = array('type' => 'main')
+    $table, $item = "", $is_replace = false, $is_delayed = false, $update = array(), $params = array('type' => 'main')
     ) {
         if ($is_replace == true) {
             $command = "REPLACE";
@@ -593,34 +535,29 @@ class Db_PDONEW extends DbObject
             return $r;
         }
     }
-	
-	function sqlSplit($item){
-		if(empty($item)) return false;
-		$f = [];
-		$insertKeys =  '(`'.implode('`,`',array_keys($item[0])).'`)';
-		$insertValues =[];
-		$e=0;
-		$k=0;
-		for($i=0;$i<count($item);$i++){
-			$insertValues[$k][] = '(\''.implode("','",$item[$i]).'\')';
-			if($e<200){
-				$e++;
-			} else {
-				$e = 0;
-				$k++;
-			}
-		}
-		return ['key'=>$insertKeys,'values'=>$insertValues];
-	}
-	
-	
-	 function insertall(
-        $table,
-        $item = "",
-        $is_replace = false,
-        $is_delayed = false,
-        $update = array(),
-        $params = array('type' => 'main')
+
+    function sqlSplit($item) {
+        if (empty($item))
+            return false;
+        $f = [];
+        $insertKeys = '(`' . implode('`,`', array_keys($item[0])) . '`)';
+        $insertValues = [];
+        $e = 0;
+        $k = 0;
+        for ($i = 0; $i < count($item); $i++) {
+            $insertValues[$k][] = '(\'' . implode("','", $item[$i]) . '\')';
+            if ($e < 200) {
+                $e++;
+            } else {
+                $e = 0;
+                $k++;
+            }
+        }
+        return ['key' => $insertKeys, 'values' => $insertValues];
+    }
+
+    function insertall(
+    $table, $item = "", $is_replace = false, $is_delayed = false, $update = array(), $params = array('type' => 'main')
     ) {
         if ($is_replace == true) {
             $command = "REPLACE";
@@ -631,15 +568,16 @@ class Db_PDONEW extends DbObject
             $command .= " DELAYED ";
         }
 
-      //  $f = $this->__quote($item, ",", $bind_f);
-	$f = $this->sqlSplit($item);
-	
-	if($f==false) return false;
-	foreach($f['values'] as $v){
-	$values = implode(',',$v);
-        $this->sql = "{$command} INTO {$table}{$f['key']} value{$values} ";
-        $r = $this->query($table, $this->sql, $bind_f, $bind_v, $params);
-	}
+        //  $f = $this->__quote($item, ",", $bind_f);
+        $f = $this->sqlSplit($item);
+
+        if ($f == false)
+            return false;
+        foreach ($f['values'] as $v) {
+            $values = implode(',', $v);
+            $this->sql = "{$command} INTO {$table}{$f['key']} value{$values} ";
+            $r = $this->query($table, $this->sql, $bind_f, $bind_v, $params);
+        }
         if ($r === false) {        //2010.10.2 联系插入数据存在BUG，新增如果插入失败，返回false,
             return false;
         } elseif ($this->lastInsertId() > 0) {
@@ -651,7 +589,6 @@ class Db_PDONEW extends DbObject
         }
     }
 
-	
     /**
      * query
      * @param string $table
@@ -661,8 +598,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @return array|bool
      */
-    function query($table, $sql, $bind1 = array(), $bind2 = array(), $params = array())
-    {
+    function query($table, $sql, $bind1 = array(), $bind2 = array(), $params = array()) {
         //{{{
 
         $this->debugMessage("SQL:$sql\n", $bind1, $bind2, $params);
@@ -728,23 +664,20 @@ class Db_PDONEW extends DbObject
         }
 
         return false;
-
     }
 
     /**
      * get last insert id
      * @return int
      */
-    public function lastInsertId()
-    {
+    public function lastInsertId() {
         return Db_PDONEW::$globals[$this->key]->lastInsertId();
     }
 
     /**
      * @return int
      */
-    public function rowCount()
-    {
+    public function rowCount() {
         return $this->affectedRows;
     }
 
@@ -753,23 +686,19 @@ class Db_PDONEW extends DbObject
      * @param string $table
      * @return array|bool
      */
-    public function execute($sql, $table = '')
-    {
+    public function execute($sql, $table = '') {
         return $this->query($table, $sql);
     }
 
-    public function __connect($forceReconnect = false)
-    {
+    public function __connect($forceReconnect = false) {
         if (empty(Db_PDONEW::$globals[$this->key]) || $forceReconnect) {
             if (!empty(Db_PDONEW::$globals[$this->key])) {
                 unset(Db_PDONEW::$globals[$this->key]);
             }
             try {
-                Db_PDONEW::$globals[$this->key] = new PDO($this->prefix . ":dbname=" . $this->database . ";host=" . $this->host . ";port=" . $this->port,
-                    $this->user, $this->password);
+                Db_PDONEW::$globals[$this->key] = new PDO($this->prefix . ":dbname=" . $this->database . ";host=" . $this->host . ";port=" . $this->port, $this->user, $this->password);
 
                 $this->debugMessage("new connect" . PHP_EOL);
-
             } catch (Exception $e) {
                 //die("connect database error:\n".var_export($this,true));
                 //写入日志
@@ -777,7 +706,6 @@ class Db_PDONEW extends DbObject
 
                 //测试环境
                 //die('connect database error :' .$this->database.','.$this->dtype.'<!--'.$e->getMessage().'-->');
-
                 //生产环境
                 die('<p align="center"></p>');
             }
@@ -788,8 +716,7 @@ class Db_PDONEW extends DbObject
         }
     }
 
-    public function __quote($condition, $split = "AND", &$bind)
-    {
+    public function __quote($condition, $split = "AND", &$bind) {
 
         $condiStr = "";
         if (!is_array($bind)) {
@@ -812,7 +739,6 @@ class Db_PDONEW extends DbObject
             }
             if (count($v1) > 0) {
                 $condiStr = implode(" " . $split . " ", $v1);
-
             }
         } else {
             $condiStr = $condition;
@@ -826,8 +752,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @return PDO
      */
-    public function getPodObject($table, $params = array('type' => 'query'))
-    {
+    public function getPodObject($table, $params = array('type' => 'query')) {
         //print_r($params);
         if (empty($params['dbinfo'])) {
             $this->init($params, $table);
@@ -836,18 +761,17 @@ class Db_PDONEW extends DbObject
                 $this->__connect(true);
             } else {
 
-                $this->debugMessage("connect state : " . PHP_EOL,
-                    Db_PDONEW::$globals[$this->key]->getAttribute(PDO::ATTR_CONNECTION_STATUS));
+                $this->debugMessage("connect state : " . PHP_EOL, Db_PDONEW::$globals[$this->key]->getAttribute(PDO::ATTR_CONNECTION_STATUS));
 
                 //如果已经有连接，检查连接状态
                 /*
-                if(!Db_PDONEW::$globals[$this->key]->getAttribute(PDO::ATTR_CONNECTION_STATUS)) {
+                  if(!Db_PDONEW::$globals[$this->key]->getAttribute(PDO::ATTR_CONNECTION_STATUS)) {
 
-                    //强制重新连接
-                    $this->debugMessage("原连接断开，重新重新连接 \n <br>");
+                  //强制重新连接
+                  $this->debugMessage("原连接断开，重新重新连接 \n <br>");
 
-                    $this->__connect(true);
-                }
+                  $this->__connect(true);
+                  }
                  */
             }
         } else {
@@ -856,11 +780,9 @@ class Db_PDONEW extends DbObject
         }
 
         //var_dump(Db_PDONEW::$globals[$this->key]->getAttribute(PDO::ATTR_CONNECTION_STATUS));
-
         //echo $this->key . " \n<br>";
 
         return Db_PDONEW::$globals[$this->key];
-
     }
 
     /**
@@ -870,8 +792,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @return bool
      */
-    public function beginTransaction($table, $params = array('type' => 'main'))
-    {
+    public function beginTransaction($table, $params = array('type' => 'main')) {
         $this->setDbEntry();
         return $this->getPodObject($table, $params)->beginTransaction();
     }
@@ -882,8 +803,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @return bool
      */
-    public function commit($table, $params = array('type' => 'main'))
-    {
+    public function commit($table, $params = array('type' => 'main')) {
         return $this->getPodObject($table, $params)->commit();
     }
 
@@ -893,8 +813,7 @@ class Db_PDONEW extends DbObject
      * @param array $params
      * @return bool
      */
-    public function rollBack($table, $params = array('type' => 'main'))
-    {
+    public function rollBack($table, $params = array('type' => 'main')) {
         return $this->getPodObject($table, $params)->rollBack();
     }
 
@@ -905,8 +824,7 @@ class Db_PDONEW extends DbObject
      * 在model及service使用时，只有在第一次获取数据时有效
      *
      */
-    public function setDbEntry()
-    {
+    public function setDbEntry() {
         self::$dbentry = 'main';
     }
 
@@ -917,8 +835,7 @@ class Db_PDONEW extends DbObject
      * @param string $file
      * @return bool
      */
-    public function addLog($msg, $file = 'db_error.log')
-    {
+    public function addLog($msg, $file = 'db_error.log') {
         $dir = '/var/log/gandianli/dberror/';
         $file = $dir . $file . '.' . date('Y-m-d');
         if ((is_dir($dir) || @mkdir($dir, 0755, true)) && is_writable($dir)) {
@@ -935,8 +852,7 @@ class Db_PDONEW extends DbObject
      * 断开所有链接
      * @return void
      */
-    public function disconnect()
-    {
+    public function disconnect() {
         Db_PDONEW::$globals = null;
     }
 
@@ -945,8 +861,7 @@ class Db_PDONEW extends DbObject
      * @param string $sql
      * @return bool
      */
-    public function isSafe($sql)
-    {
+    public function isSafe($sql) {
 
         $clean = '';
         $error = '';
@@ -993,18 +908,15 @@ class Db_PDONEW extends DbObject
             //这些函数不会被使用，但是黑客会用它来操作文件，down掉数据库
             $fail = true;
             $error = "slown down detect";
-        } elseif (strpos($clean, 'benchmark') !== false && preg_match('~(^|[^a-z])benchmark($|[^[a-z])~s',
-                $clean) != 0
+        } elseif (strpos($clean, 'benchmark') !== false && preg_match('~(^|[^a-z])benchmark($|[^[a-z])~s', $clean) != 0
         ) {
             $fail = true;
             $error = "slown down detect";
-        } elseif (strpos($clean, 'load_file') !== false && preg_match('~(^|[^a-z])load_file($|[^[a-z])~s',
-                $clean) != 0
+        } elseif (strpos($clean, 'load_file') !== false && preg_match('~(^|[^a-z])load_file($|[^[a-z])~s', $clean) != 0
         ) {
             $fail = true;
             $error = "file fun detect";
-        } elseif (strpos($clean, 'into outfile') !== false && preg_match('~(^|[^a-z])into\s+outfile($|[^[a-z])~s',
-                $clean) != 0
+        } elseif (strpos($clean, 'into outfile') !== false && preg_match('~(^|[^a-z])into\s+outfile($|[^[a-z])~s', $clean) != 0
         ) {
             $fail = true;
             $error = "file fun detect";
@@ -1016,14 +928,12 @@ class Db_PDONEW extends DbObject
 
         if (!empty($fail)) {
             //写入日志
-            $this->addLog($error . ' ' . $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'] . ' ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . ' SQL:' . $sql,
-                "inject_{$_SERVER['HOSTNAME']}.log");
+            $this->addLog($error . ' ' . $_SERVER['REMOTE_ADDR'] . ' ' . $_SERVER['HTTP_USER_AGENT'] . ' ' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'] . ' SQL:' . $sql, "inject_{$_SERVER['HOSTNAME']}.log");
             return false;
         } else {
             return true;
         }
     }
-
 
     /**
      * 记录SQL查询上下文
@@ -1032,8 +942,7 @@ class Db_PDONEW extends DbObject
      * @param string $filename
      * @return bool
      */
-    private function logSQLContext($data, $filename)
-    {
+    private function logSQLContext($data, $filename) {
         if ($data && is_array($data) && $filename) {
             $data['url'] = '';
             $data['time'] = time();
@@ -1048,8 +957,7 @@ class Db_PDONEW extends DbObject
     /**
      * debug message
      */
-    private function debugMessage()
-    {
+    private function debugMessage() {
         if (defined("DEBUG") && $this->isShowDbError === true) {
             $args = func_get_args();
             foreach ($args as $v) {
@@ -1063,10 +971,8 @@ class Db_PDONEW extends DbObject
         }
         return false;
     }
-    
-    
-    public function getFilter($str)
-    {
+
+    public function getFilter($str) {
         $getfilter = "\\<.+javascript:window\\[.{1}\\\\x|<.*=(&#\\d+?;?)+?>|<.*(data|src)=data:text\\/html.*>|\\b(alert\\(|confirm\\(|expression\\(|prompt\\(|benchmark\s*?\(.*\)|sleep\s*?\(.*\)|load_file\s*?\\()|<[a-z]+?\\b[^>]*?\\bon([a-z]{4,})\s*?=|^\\+\\/v(8|9)|\\b(chr|mid)\\b\\s*?([\\(\\)'\"\\d]+?=[\\(\\)'\"\\d]+?|[\\(\\)'\"a-zA-Z]+?=[\\(\\)'\"a-zA-Z]+?|>|<|\s+?[\\w]+?\\s+?\\bin\\b\\s*?\(|\\blike\\b\\s+?[\"'])|\\/\\*.*\\*\\/|<\\s*script\\b|\\bEXEC\\b|UNION.+?SELECT\s*(\(.+\)\s*|@{1,2}.+?\s*|\s+?.+?|(`|'|\").*?(`|'|\")\s*)|UPDATE\s*(\(.+\)\s*|@{1,2}.+?\s*|\s+?.+?|(`|'|\").*?(`|'|\")\s*)SET|INSERT\\s+INTO.+?VALUES|(SELECT|DELETE)@{0,2}(\\(.+\\)|\\s+?.+?\\s+?|(`|'|\").*?(`|'|\"))FROM(\\(.+\\)|\\s+?.+?|(`|'|\").*?(`|'|\"))|(CREATE|ALTER|DROP|TRUNCATE)\\s+(TABLE|DATABASE)";
         if (preg_match("/" . $getfilter . "/is", $str, $arr) == 1) {
             $log = array(
