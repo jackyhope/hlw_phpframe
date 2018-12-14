@@ -760,7 +760,7 @@ class hlw_lib_BaseUtils
      * @param string $file
      * @return bool
      */
-    public static function addLog($msg, $file = 'db_error.log', $dir = '/var/log/gandianli/dberror/')
+    public static function addLog($msg, $file = 'db_error.log', $dir = '/var/log/huiliewang/dberror/')
     {
         $file = $dir . $file . '.' . date('Y-m-d');
         if ((is_dir($dir) || @mkdir($dir, 0755, true)) && is_writable($dir)) {
