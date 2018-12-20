@@ -164,8 +164,8 @@ class Db_PDONEW extends DbObject {
                 case 'phpyun' : //慧猎网
                     $section_name = 'huiliewang';
                     break;
-                case 'huilie'://慧猎网数据中心
-                    $section_name = 'huilie_data';
+                case 'huilie'://慧猎网简历
+                    $section_name = 'resume';
                     break;
                 default:
                     $section_name = $this->pri;
