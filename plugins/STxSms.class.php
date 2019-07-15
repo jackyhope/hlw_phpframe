@@ -29,11 +29,11 @@ class STxSms
     protected $message = '';
 
     public function __construct($config = '') {
-        isset($config['appId']) && $this->appId = $config['appId'];
-        isset($config['appKey']) && $this->appKey = $config['appKey'];
-        isset($config['templateId']) && $this->templateId = $config['templateId'];
-        isset($config['smsSign']) && $this->smsSign = $config['smsSign'];
-        isset($config['nationCode']) && $this->nationCode = $config['nationCode'];
+        isset($config['appId']) && $this->appId = $config['appId'] ? $config['appId'] : $this->appId;
+        isset($config['appKey']) && $this->appKey = $config['appKey'] ? $config['appKey'] : $this->appKey;
+        isset($config['templateId']) && $this->templateId = $config['templateId'] ? $config['templateId'] : $this->templateId;
+        isset($config['smsSign']) && $this->smsSign = $config['smsSign'] ? $config['smsSign'] : $this->smsSign;
+        isset($config['nationCode']) && $this->nationCode = $config['nationCode'] ? $config['nationCode'] : $this->nationCode;
     }
 
     /**
