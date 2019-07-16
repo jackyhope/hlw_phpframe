@@ -21,8 +21,8 @@ use Qcloud\Sms\TtsVoiceSender;
 
 class STxSms
 {
-    protected $appId;
-    protected $appKey = '';
+    protected $appId = '1400233471';
+    protected $appKey = 'f585183021f042a7ed1e64e65bde0cfa';
     protected $templateId;
     protected $smsSign;
     protected $nationCode = 86;
@@ -54,7 +54,7 @@ class STxSms
         try {
             $sender = new SmsSingleSender($this->appId, $this->appKey);
             $result = $sender->send(0, $this->nationCode, $phone, $content);
-            $rsp = json_decode($result);
+            $rsp = json_decode($result, true);
             $this->message = $rsp['errmsg'];
             if ($rsp['result'] == 0) {
                 return true;
@@ -76,7 +76,7 @@ class STxSms
         try {
             $sender = new SmsSingleSender($this->appId, $this->appKey);
             $result = $sender->sendWithParam($this->nationCode, $phone, $this->templateId, $params, $this->smsSign);
-            $rsp = json_decode($result);
+            $rsp = json_decode($result, true);
             $this->message = $rsp['errmsg'];
             if ($rsp['result'] == 0) {
                 return true;
@@ -98,7 +98,7 @@ class STxSms
         try {
             $sender = new SmsMultiSender($this->appId, $this->appKey);
             $result = $sender->send(0, $this->nationCode, $phoneNumbers, $content);
-            $rsp = json_decode($result);
+            $rsp = json_decode($result, true);
             $this->message = $rsp['errmsg'];
             if ($rsp['result'] == 0) {
                 return true;
@@ -122,7 +122,7 @@ class STxSms
         try {
             $sender = new SmsMultiSender($this->appId, $this->appKey);
             $result = $sender->sendWithParam($this->nationCode, $phoneNumbers, $templateId, $params, $this->smsSign);
-            $rsp = json_decode($result);
+            $rsp = json_decode($result, true);
             if ($rsp['result'] == 0) {
                 return true;
             }
