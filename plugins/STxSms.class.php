@@ -24,7 +24,7 @@ class STxSms
     protected $appId = '1400233471';
     protected $appKey = 'f585183021f042a7ed1e64e65bde0cfa';
     protected $templateId;
-    protected $smsSign;
+    protected $smsSign = "慧猎科技";
     protected $nationCode = 86;
     protected $message = '';
 
